@@ -66,15 +66,16 @@ nicolas.getSummary();
 
 ```
 ### **Decoradores**
-Le dice a nest como una clase de typeScrip como se deberia comportar respecto al framework.
+> Le dice a nest como una clase de typeScrip como se deberia comportar respecto al framework.
+> - `@Controller()`: Se define que una clase actue como controller.
+> - `@Get('nuevo-endpoint')`: Para crear endpoints
+> - `@Params`: Para obtener parámetros(ruta) de la URL usas el decorador.
+> - `@Query`: Para obtener parmetros de consulta de la URL.
 
-- `@Controller()`: Se define que una clase actue como controller.
-- `@Get('nuevo-endpoint')`: Para crear endpoints
-- `@Params`: Para obtener parámetros de la URL usas el decorador.
 ### **Crear enpoits**
-- Tip: utilizar plurales para los nombres de los endpoits.Ejemplo:
-    - api.example.con/tasks/
-    - api.example.con/users/
+>- Tip: utilizar plurales para los nombres de los endpoits.Ejemplo:
+>    - api.example.con/tasks/
+>    - api.example.con/users/
 
 ```
 @Get('nameRoots')
@@ -97,3 +98,33 @@ newEndpoint(){
     return `product ${productId} and ${id}`;
   }
 ```
+### **Parametros de ruta vs Parametros query**
+- **Parmetros de ruta**: Son aquellos que forman parte del propio endpoint y son obligatorios.
+  - En NestJS se capturan con el decorador `@Param()`.
+```
+@Get('products/:productId')
+  getProduct(@Param('productId') productId: string) {
+    return `product ${productId}`;
+}
+
+```
+
+- **Parametros de consulta(Query)**:  Como por ejemplo `example.com/products?limit=10&offset=20`.
+  - que se capturan con el decorador `@Query()` importado desde @nestjs/common
+```
+@Get('products')
+  getProducts(
+    @Query('limit') limit = 100,
+    @Query('offset') offset = 0,
+    @Query('brand') brand: string,
+  ) {
+    return `List of products: limit=> ${limit}  offset=> ${offset} brand=> ${brand}`;
+}
+```
+- **Diferencias:**
+
+|  Parametros de Ruta     | Parametros de Consulta |
+| ----------------------- | ----------- |
+| -Son obligatorios .      | - Suelen ser opcionales      |
+| -Se utilizan para IDs u otros identificadores obligatorios             | -Se utilizan para aplicar filtros opcionales a una consulta      |
+
