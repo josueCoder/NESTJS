@@ -128,3 +128,33 @@ newEndpoint(){
 | -Son obligatorios .      | - Suelen ser opcionales      |
 | -Se utilizan para IDs u otros identificadores obligatorios             | -Se utilizan para aplicar filtros opcionales a una consulta      |
 
+### **Evitando el bloqueo de rutas**
+
+Un importante consejo a tener en cuenta para construir aplicaciones con NestJS es asegurar que un endpoint no esté bloqueando a otro.
+Por ejemplo:
+```
+/* Ejemplo Bloqueo de Endpoints */
+@Get('products/:idProduct')
+endpoint1() {
+    // ...
+}
+@Get('products/filter')
+endpoint2() {
+    // ...
+}
+```
+El endpoint1 bloquea al **endpoint2, ya que este está esperando un parámetro :idProduct y si llamamos a localhost:3000/products/filter NestJS entenderá que la palabra filter es el ID que espera el primer endpoint ocasionando que no sea posible acceder al segundo endpoint.
+
+Se soluciona de forma muy sencilla invirtiendo el orden de los mismos. Coloca los endpoints dinámicos en segundo lugar para que no ocasionen problemas.
+```
+/* Solución Bloqueo de Endpoints */
+@Get('products/filter')
+endpoint2() {
+    // ...
+}
+@Get('products/:idProduct')
+endpoint1() {
+    // ...
+}
+```
+Este es un inconveniente común que suele suceder en NestJS y es importante que lo conozcas para evitar dolores de cabeza.
