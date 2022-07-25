@@ -71,7 +71,7 @@ nicolas.getSummary();
 > - `@Get('nuevo-endpoint')`: Para crear endpoints
 > - `@Params`: Para obtener parámetros(ruta) de la URL usas el decorador.
 > - `@Query`: Para obtener parmetros de consulta de la URL.
-
+> - `@Post y @body`: Metodo para la creacion de datos. Los datos viajan en el cuerpo(body) del request.
 ### **Crear enpoits**
 >- Tip: utilizar plurales para los nombres de los endpoits.Ejemplo:
 >    - api.example.con/tasks/
@@ -158,3 +158,34 @@ endpoint1() {
 }
 ```
 Este es un inconveniente común que suele suceder en NestJS y es importante que lo conozcas para evitar dolores de cabeza.
+
+### **Creation of Controllers**
+```
+#crea un controlador dentro de un directorio 
+$nest -g controller nameController
+
+#crea un controlador dentro del directorio "controllers"
+$nest -g controller controllers/nameController --flat
+```
+### **Crear registro con Post**
+> Importar los decoradores `Post` y `Body` desde @nestjs/common. 
+> - El primero para indicar que el endpoint es del tipo POST.
+> - El segundo para capturar los datos provenientes del front-end en el cuerpo del mensaje.<br>
+> Un buen endpoint del tipo POST tiene que devolver el registro completo recientemente.
+  insertado en la BBDD para que el front-end pueda actualizarse inmediatamente y no tener que realizar una consulta por el mismo.
+```
+import { ..., Post, Body } from '@nestjs/common';
+
+@Controller('products')
+export class ProductsController {
+  ...
+
+  @Post() // 👈 New decorator
+  create(@Body() payload: any) {
+    return {
+      message: 'accion de crear',
+      payload,
+    };
+  }
+}
+```
