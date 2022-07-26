@@ -189,3 +189,29 @@ export class ProductsController {
   }
 }
 ```
+### **Actualizar y eliminar**
+> PUT and DELETE
+> Estos dos métodos son increíbles , uno es para actualizar los datos y el otro es para eliminarlos
+
+> - Debemos importar el decorador `@Put` para realizar las actualizaciones.
+> - Este método es como la combinacion del metodo `Get` y  `Post`,por ende usualmente va acompañado del `param` , `body` y de parámetros
+```
+@Put(':id')
+  update(@Param('id') id: number, @Body() payload: any) {
+    return {
+      message: 'update method',
+      id,
+      payload,
+    };
+  }
+```
+> -Para eliminar utilizamos el decorador `@Delete`.
+```
+@Delete(':id')
+  delete(@Param('id') id: number) {
+    return {
+      message: 'Delete method',
+      id,
+    };
+  }
+```
