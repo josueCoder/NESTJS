@@ -215,3 +215,29 @@ export class ProductsController {
     };
   }
 ```
+#### **Codigos de estado HTTP**
+> Con el decorador  `@HttpCode` puedes personalizar el status code para tus endpoints.
+> Para esto debemos importar nuestro decorador` HttpCode` y opcionalmente `HttpStatus`.
+```
+import {Controller,Post,HttpStatus,HttpCode} from '@nestjs/common';
+```
+> Definir el codigo de estado
+```
+ @Post("rute")
+  @HttpCode(code) // 👈 New decorator para personalizar el status code
+  create(@Body() payload: any) {
+    return {
+      message: 'acción de crear',
+      payload,
+    };
+  }
+```
+> Dije que HttpStatus es opcional ya que podemos definir el código de 2 maneras , numero o por las propiedades de HttpStatus
+```
+@HttpCode(HttpStatus.CREATED)
+```
+> O
+```
+@HttpCode(201)
+```
+> Aunque personalmente prefiero definirlo por números.
